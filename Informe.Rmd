@@ -78,9 +78,14 @@ for(j in unique(datos1$Trimestre)){
 
 ```{r echo=F,warning=F,message=F}
 for(j in unique(datos1$Clase)){
-  dato<-filter(datos1,Clase==j)
-  fig<-ggplot(dato,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
-    geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados de la clase",j))+scale_fill_manual(values=colores)
+  dato<-filter(datos1,Clase==j & numero>0)
+  dato_sort<-arrange(dato,Trimestre)
+  dato_cumsum<-ddply(dato_sort,.(Trimestre),transform,label_ypos=rev(cumsum(rev(numero))))
+  fig<-ggplot(dato_cumsum,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
+    geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados de la clase",j))+scale_fill_manual(values=colores)+
+    geom_text(aes(y=label_ypos,label=numero),vjust=1.6,color="black",size=3.5)
+    
+    
     print(fig)
 }
 ```
