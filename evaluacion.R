@@ -1,12 +1,11 @@
-library(openxlsx)
 library(tidyr)
 library(readxl)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
-library(plotly)
+library(plyr)
 #Importamos los datos
-datos<-read_xlsx("C:/Users/USER/Documents/Master_R/Temas_R/Yoli/Instituto/curso_21_22.xlsx")
+datos<-read_xlsx("curso_21_22.xlsx")
 #Formateamos los datos
 #datos$Curso<-as.factor(datos$Curso)
 datos$Letra<-as.factor(datos$Letra)
@@ -18,11 +17,12 @@ datos$Trimestre<-as.factor(datos$Trimestre)
 datos$Clase<-factor(datos$Clase,levels=levels(datos$Clase)[c(3:13,1:2,14:17)])
 datos$Curso<-factor(datos$Curso,levels=levels(datos$Curso)[c(3:6,1:2,7:10)])
 datos1<-pivot_longer(datos,cols = 5:8,names_to = "Resultados",values_to = "numero")
+datos1$Resultados<-as.factor(datos1$Resultados)
 #Numero de suspensos por case y categorías (Global)
 colores<-c("#097a10","#c2af06","#f75205","#a60c25")
-datos2<-datos%>%dplyr::group_by(Curso,Trimestre)%>%summarise(N_alumnos=sum(N_alumnos),Aprobados=sum(Aprobados),
-                Suspensos_1_3=sum(Suspensos_1_3),Suspensos_4_6=sum(Suspensos_4_6),Suspensos_7_mas=sum(Suspensos_7_mas))
-datos2<-pivot_longer(datos2,cols = 4:7,names_to = "Resultados",values_to = "numero")
+#datos2<-datos%>%dplyr::group_by(Curso,Trimestre)%>%summarise(N_alumnos=sum(N_alumnos),Aprobados=sum(Aprobados),
+ #               Suspensos_1_3=sum(Suspensos_1_3),Suspensos_4_6=sum(Suspensos_4_6),Suspensos_7_mas=sum(Suspensos_7_mas))
+#datos2<-pivot_longer(datos2,cols = 4:7,names_to = "Resultados",values_to = "numero")
 #Graficamos los cursos por trimestres
 for(i in unique(datos1$Trimestre)){
   datos<-dplyr::filter(datos1,Trimestre==i)
@@ -48,13 +48,17 @@ for(j in unique(datos1$Trimestre)){
 #Generamos diagrama de barras por trimestre para cada clase
 
 for(j in unique(datos1$Clase)){
-  dato<-filter(datos1,Clase==j)
-  fig<-ggplot(dato,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
-    geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados de la clase",j))+scale_fill_manual(values=colores)
+  dato<-filter(datos1,Clase==j & numero>0)
+  dato_sort<-arrange(dato,Trimestre)
+  dato_cumsum<-ddply(dato_sort,.(Trimestre),transform,label_ypos=rev(cumsum(rev(numero))))
+  fig<-ggplot(dato_cumsum,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
+    geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados de la clase",j))+scale_fill_manual(values=colores)+
+    geom_text(aes(y=label_ypos,label=numero),vjust=1.6,color="black",size=3.5)
+    
+    
     print(fig)
 }
   
-
 
 
 
