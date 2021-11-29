@@ -6,17 +6,19 @@ library(dplyr)
 library(ggplot2)
 detach(package:plyr)
 #"ESO3_PMAR",
-clase<-c("ESO1_A","ESO1_B","ESO1_C","ESO2_A","ESO2_B","ESO2_C","ESO3_A","ESO3_B","ESO4_A","ESO4_B","BAC1_A","BAC2_A","INFOFI1","INFOFI2","PEIEST1","PEIEST2")
+clase<-c("ESO1_A","ESO1_B","ESO1_C","ESO2_A","ESO2_B","ESO2_C","ESO3_A","ESO3_B","ESO3_PMAR","ESO4_A","ESO4_B","BAC1_A","BAC2_A","INFOFI1","INFOFI2","PEIEST1","PEIEST2")
 j=1
 resultados<-data.frame(Clase=character(),Aprobados=integer(),Suspensos_1_3=integer(),
                        Suspensos_4_6=integer(),
                        Suspensos_7_mas=integer(),
-                       stringsAsFactors=F)
+                      stringsAsFactors=F)
+
 for(i in clase){
 datos<-read.csv2(paste0(i,".csv"),header = T,encoding = "UTF-8")
+#datos<-read.csv2("ESO4_A.csv",header = T,encoding = "UTF-8")
 #Arregalmos el data frame
 datos$CUALIFICACIÓN<-as.numeric(datos$CUALIFICACIÓN)
-datos<-datos%>%mutate(Nome_completo=paste(NOME,X1º.APELIDO,X2º.APELIDO),Cat_notas=case_when(CUALIFICACIÓN>5~"Aprobado",CUALIFICACIÓN<=5~"Suspenso"))%>%
+datos<-datos%>%mutate(Nome_completo=paste(NOME,X1º.APELIDO,X2º.APELIDO),Cat_notas=case_when(CUALIFICACIÓN>=5~"Aprobado",CUALIFICACIÓN<5~"Suspenso"))%>%
     select(Nome_completo,Cat_notas)%>%na.omit()
 datos$Nome_completo<-as.factor(datos$Nome_completo)
                    
@@ -52,5 +54,5 @@ if("Suspensos_7_mas"%in% colnames(datos1)){
 }
 j=j+1
 }
-write.csv2(resultados,"clases.csv")
+write.csv2(resultados,"CLASES_TOTAL.csv")
 

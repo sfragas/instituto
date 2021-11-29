@@ -2,14 +2,16 @@
 title: "Avaliación IES MUralla Romana"
 author: "Santiago Fraga Saenz"
 date: "11/6/2021"
-output: 
+output:
   html_document:
     toc: yes
     number_sections: yes
     toc_float:
       collapsed: no
       smooth_scroll: yes
-always_allow_html: true
+  pdf_document:
+    toc: yes
+always_allow_html: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -46,7 +48,7 @@ colores<-c("#097a10","#c2af06","#f75205","#a60c25")
 
 # Realizamos las gráficas del los diferentes cursos por trimestres
 
-```{r echo=F,warning=F,message=F}
+```{r echo=F,warning=F,message=F,fig.width=15,fig.height=10}
 for(i in unique(datos1$Trimestre)){
   datos<-dplyr::filter(datos1,Trimestre==i)
   grafica<-ggplot(data=datos,aes(x=Curso,y=numero,fill=Resultados))+geom_bar(stat="identity",position=position_dodge())+
