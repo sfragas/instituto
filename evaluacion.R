@@ -3,7 +3,7 @@ library(readxl)
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
-library(plyr)
+
 #Importamos los datos
 datos<-read_xlsx("curso_21_22.xlsx")
 #Formateamos los datos
