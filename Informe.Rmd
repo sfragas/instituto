@@ -46,7 +46,7 @@ datos1$Resultados<-as.factor(datos1$Resultados)
 colores<-c("#097a10","#c2af06","#f75205","#a60c25")
 ```
 
-# Realizamos las gráficas del los diferentes cursos por trimestres
+# Realizamos as gráficas integradas para os cursos por trimestres
 
 ```{r echo=F,warning=F,message=F,fig.width=15,fig.height=10}
 for(i in unique(datos1$Trimestre)){
@@ -58,11 +58,68 @@ for(i in unique(datos1$Trimestre)){
 resultado<-"C:/Users/USER/Documents/Master_R/Temas_R/Yoli/Instituto/"
 ```
 
-# Realizamos las gráficas de barras para cada trimestre y cada una de las clases
+# Realizamos as gráficas de barras para cada trimestre e cada unha das clases agrupadas por niveis
+## Resultados para as clases de ESO
 
 ```{r echo=F,warning=F,message=F}
 for(j in unique(datos1$Trimestre)){
-    dato<-filter(datos1,Trimestre==j)
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^ESO",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+```
+
+## Resultados para as clases de BAC
+
+```{r echo=F,warning=F,message=F}
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^BAC",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+```
+
+## resultados para as clases de INFOFI
+
+```{r echo=F,warning=F,message=F}
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^INF",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+
+```
+
+## Resultados para as clases de PEIEST
+
+```{r echo=F,warning=F,message=F}
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^PEI",datos1$Curso),]
   for(i in unique(dato$Clase)){
     dato1<-dplyr::filter(dato,Clase==i)
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+

@@ -32,9 +32,55 @@ for(i in unique(datos1$Trimestre)){
   print(grafica)
 }
 
-#Creamos diagramas de barras por trimestres y clases
+#Creamos diagramas de barras por trimestres y clases. Separamos por niveles educativos
+#Para los Cursos de ESO
 for(j in unique(datos1$Trimestre)){
   dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^ESO",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+
+#Para los Cursos de BAC
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^BAC",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+#Para los Cursos de INFOFI
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^INF",datos1$Curso),]
+  for(i in unique(dato$Clase)){
+    dato1<-dplyr::filter(dato,Clase==i)
+    fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
+      geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+    
+    print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+
+#Para los Cursos de PEIEST
+for(j in unique(datos1$Trimestre)){
+  dato<-filter(datos1,Trimestre==j)
+  dato<-dato[grep("^PEI",datos1$Curso),]
   for(i in unique(dato$Clase)){
     dato1<-dplyr::filter(dato,Clase==i)
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
@@ -61,5 +107,5 @@ for(j in unique(datos1$Clase)){
 }
   
 
-
+grep("^ESO",datos1$Curso)
 
