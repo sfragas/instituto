@@ -62,10 +62,11 @@ for(j in unique(datos1$Trimestre)){
 # Realizamos as gráficas de barras para cada trimestre e cada unha das clases agrupadas por niveis
 
 ## Resultados para as clases de ESO
-for(j in unique(datos1$Clase)){
-  dato<-dplyr::filter(datos1,Clase==j & numero>0)
-  dato<-dato[grep("^ESO",dato$Curso),]
-  dato_sort<-arrange(dato,Trimestre)
+dato<-datos1[grep("^ESO",datos1$Curso),]
+for(j in unique(dato$Clase)){
+  data<-dplyr::filter(dato,Clase==j & numero>0)
+  #dato<-dato[grep("^ESO",datos1$Curso),]
+  dato_sort<-arrange(data,Trimestre)
   dato_cumsum<-ddply(dato_sort,.(Trimestre),transform,label_ypos=rev(cumsum(rev(numero))))
   fig<-ggplot(dato_cumsum,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
     geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados da clase",j))+scale_fill_manual(values=colores)+
@@ -74,10 +75,10 @@ for(j in unique(datos1$Clase)){
 }
 
 ## Resultados para as clases de BAC
-for(j in unique(datos1$Clase)){
-  dato<-filter(datos1,Clase==j & numero>0)
-  dato<-dato[grep("^BAC",dato$Curso),]
-  dato_sort<-arrange(dato,Trimestre)
+dato<-datos1[grep("^BAC",datos1$Curso),]
+for(j in unique(dato$Clase)){
+  data<-filter(dato,Clase==j & numero>0)
+  dato_sort<-arrange(data,Trimestre)
   dato_cumsum<-ddply(dato_sort,.(Trimestre),transform,label_ypos=rev(cumsum(rev(numero))))
   fig<-ggplot(dato_cumsum,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
     geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados da clase",j))+scale_fill_manual(values=colores)+
@@ -85,15 +86,7 @@ for(j in unique(datos1$Clase)){
   print(fig)
 }
 
-
-
-
-
-
-
-
-
-#Para los Cursos de INFOFI E PEIEST
+#Para los Cursos de INFOFI E PEIEST#######################
 
 #Importamos los datos
 datos<-read.csv2("CLASES_INFOFI_PEIEST.csv",header=T)
@@ -161,4 +154,8 @@ for(j in unique(datos1$Clase)){
   
 
 
-
+toc: true # table of content true
+toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
+number_sections: true  ## if you want number sections at each table header
+theme: united  # many options for theme, this one is my favorite.
+highlight: tango  # specifies the syntax highlighting style
