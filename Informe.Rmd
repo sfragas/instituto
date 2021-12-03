@@ -1,9 +1,19 @@
 ---
+<<<<<<< HEAD
 title: "Resultados da Primeira Avaliación IES Muralla Romana. Curso 2021-2022."
 #author: "Yolanda Sal Vázquez"
 date: "02-12-2021"
+=======
+title: "Primeira Avaliación IES Muralla Romana. Curso 2021-2022."
+#author: "Yolanda Sal Vázquez"
+date: "02/12/2021"
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 output:
+  pdf_document:
+    toc: yes
+    number_sections: yes
   html_document:
+<<<<<<< HEAD
     toc: true # table of content true
     toc_depth: 3  # upto three depths of headings (specified by #, ## and ###)
     number_sections: true  ## if you want number sections at each table header
@@ -12,16 +22,23 @@ output:
   pdf_document:
     toc: yes
     number_sections: yes
+=======
+    toc: yes
+    number_sections: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 always_allow_html: yes
 params:
   Avaliacion: "1º Trimestre"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
-```{r echo=FALSE,warning=F,message=F}
+```{r}
 library(tidyr)
 library(readxl)
 library(dplyr)
@@ -30,7 +47,7 @@ library(plotly)
 library(plyr)
 ```
 
-```{r echo=FALSE,warning=F,message=F}
+```{r}
 #Importamos los datos
 datos<-read.csv2("CLASES_ESO_BAC.csv",header=T)
 eso<-datos[grep("^ESO",datos$Clase),]
@@ -50,14 +67,21 @@ colores<-c("#097a10","#c2af06","#f75205","#a60c25")
 ```
 
 # Gráficos integrados para os cursos de ESO e BAC por trimestres
+<div class=text-justify>
+**A porcentaxe de alumnos de ESO que aprobaron todas as materias no `r params$Avaliacion` foi do `r round(sum(eso$Aprobados)/sum(eso$N_alumnos)*100,1)`%, o `r  round(sum(eso$Suspensos_1_3)/sum(eso$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, o `r round(sum(eso$Suspensos_4_6)/sum(eso$N_alumnos)*100,1)`% entre 4 e 6 materias e o `r round(sum(eso$Suspensos_7_mas)/sum(eso$N_alumnos)*100,1)`% suspenderon 7 ou mais materias.**
 
+<<<<<<< HEAD
 <div class=text-justify>
 **A porcentaxe de alumnos de ESO que aprobaron todas as materias no `r params$Avaliacion` foi do `r round(sum(eso$Aprobados)/sum(eso$N_alumnos)*100,1)`%, o `r  round(sum(eso$Suspensos_1_3)/sum(eso$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, o `r round(sum(eso$Suspensos_4_6)/sum(eso$N_alumnos)*100,1)`% entre 4 e 6 materias e o `r round(sum(eso$Suspensos_7_mas)/sum(eso$N_alumnos)*100,1)`% suspenderon 7 ou mais materias.**
 
 **Para o caso dos alumnos de BAC, aprobaron todas as materias no `r params$Avaliacion` o `r round(sum(bac$Aprobados)/sum(bac$N_alumnos)*100,1)`%, o `r  round(sum(bac$Suspensos_1_3)/sum(bac$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, o `r round(sum(bac$Suspensos_4_6)/sum(bac$N_alumnos)*100,1)`% entre 4 e 6 materias e o `r round(sum(bac$Suspensos_7_mas)/sum(bac$N_alumnos)*100,1)`% suspenderon 7 ou mais materias.**
 <div/>
+=======
+**Para o caso dos alumnos de BAC, aprobaron todas as materias no `r params$Avaliacion` o `r round(sum(bac$Aprobados)/sum(bac$N_alumnos)*100,1)`%, o `r  round(sum(bac$Suspensos_1_3)/sum(bac$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, o `r round(sum(bac$Suspensos_4_6)/sum(bac$N_alumnos)*100,1)`% entre 4 e 6 materias e o `r round(sum(bac$Suspensos_7_mas)/sum(bac$N_alumnos)*100,1)`% suspenderon 7 ou mais materias.**
+</div>
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 
-```{r echo=F,warning=F,message=F,fig.width=10,fig.height=5}
+```{r fig.width=10,fig.height=5}
 for(i in unique(datos1$Trimestre)){
   datos<-dplyr::filter(datos1,Trimestre==i)
   grafica<-ggplot(data=datos,aes(x=Curso,y=numero,fill=Resultados))+geom_bar(stat="identity",position=position_dodge())+
@@ -67,12 +91,19 @@ for(i in unique(datos1$Trimestre)){
 ```
 
 # Gráficos de barras para cada trimestre e cada unha das clases agrupadas por niveis
+<<<<<<< HEAD
 
 Nestas gráficas amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
 
 ## Resultados para as clases de ESO
 
 ```{r echo=F,warning=F,message=F}
+=======
+Nestes gráficos amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
+## Resultados para as clases de ESO
+
+```{r}
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 for(j in unique(datos1$Trimestre)){
   dato<-filter(datos1,Trimestre==j)
   dato<-dato[grep("^ESO",datos1$Curso),]
@@ -80,6 +111,7 @@ for(j in unique(datos1$Trimestre)){
     dato1<-dplyr::filter(dato,Clase==i)
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
       geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+<<<<<<< HEAD
       theme_bw()+labs(title=paste("Resultados da clase",i,"trimestre",j))+scale_fill_manual(values=colores)
     
     print(fig)
@@ -87,11 +119,18 @@ for(j in unique(datos1$Trimestre)){
   }
 }
 
+=======
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+      print(fig)
+    #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
+  }
+}
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 ```
 
 ## Resultados para as clases de BAC
 
-```{r echo=F,warning=F,message=F}
+```{r}
 for(j in unique(datos1$Trimestre)){
   dato<-filter(datos1,Trimestre==j)
   dato<-dato[grep("^BAC",datos1$Curso),]
@@ -100,20 +139,27 @@ for(j in unique(datos1$Trimestre)){
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
       geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
       theme_bw()+labs(title=paste("Resultados da clase",i,"trimestre",j))+scale_fill_manual(values=colores)
-    
-    print(fig)
+      print(fig)
     #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
   }
 }
 ```
 
 # Graficos dos resultados por clases e trimestres para ESO e BAC.
+<<<<<<< HEAD
 
 Nestas gráficas amósanse o número de alumnos por clase e trimestre distribuídos por resultados académicos nun diagrama de barras.
 
 ## Resultados por trimestre para as clases de ESO
 
 ```{r echo=F,warning=F,message=F}
+=======
+Nestes gráficos amósanse o número de alumnos por clase e trimestre distribuídos por resultados académicos nun diagrama de barras.
+## Móstranse os resultados por trimestre para as clases de ESO
+
+```{r}
+
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 dato<-datos1[grep("^ESO",datos1$Curso),]
 for(j in unique(dato$Clase)){
   data<-dplyr::filter(dato,Clase==j & numero>0)
@@ -125,11 +171,19 @@ for(j in unique(dato$Clase)){
     geom_text(aes(y=label_ypos,label=numero),vjust=1.6,color="black",size=3.5)
   print(fig)
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 ```
 
 ## Móstranse os resultados por trimestre para as clases de BAC
 
+<<<<<<< HEAD
 ```{r echo=F,warning=F,message=F}
+=======
+```{r}
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 dato<-datos1[grep("^BAC",datos1$Curso),]
 for(j in unique(dato$Clase)){
   data<-filter(dato,Clase==j & numero>0)
@@ -144,7 +198,7 @@ for(j in unique(dato$Clase)){
 
 # Gráficos integrados para os cursos de INFOFI e PEIEST por trimestres
 
-```{r echo=F,warning=F,message=F}
+```{r}
 #Importamos los datos
 datos<-read.csv2("CLASES_INFOFI_PEIEST.csv",header=T)
 inf<-datos[grep("^INF",datos$Clase),]
@@ -162,7 +216,10 @@ datos1$Resultados<-as.factor(datos1$Resultados)
 #Numero de suspensos por case y categorías (Global)
 colores<-c("#097a10","#c2af06","#f75205","#a60c25")
 ```
+<div class=text-justify>
+**A porcentaxe de alumnos de INFOFI que aprobaron todas as materias no `r params$Avaliacion` foi do `r round(sum(inf$Aprobados)/sum(inf$N_alumnos)*100,1)`%, o `r  round(sum(inf$Suspensos_1_3)/sum(inf$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, e o `r round(sum(inf$Suspensos_4_mas)/sum(inf$N_alumnos)*100,1)`% 4 ou mais materias.**
 
+<<<<<<< HEAD
 <div class=text-justify">
 **A porcentaxe de alumnos de INFOFI que aprobaron todas as materias no `r params$Avaliacion` foi do `r round(sum(inf$Aprobados)/sum(inf$N_alumnos)*100,1)`%, o `r  round(sum(inf$Suspensos_1_3)/sum(inf$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, e o `r round(sum(inf$Suspensos_4_mas)/sum(inf$N_alumnos)*100,1)`% 4 ou mais materias.**
 
@@ -170,6 +227,11 @@ colores<-c("#097a10","#c2af06","#f75205","#a60c25")
 <div/>
 
 ```{r echo=F,warning=F,message=F}
+=======
+**Para o caso dos alumnos de PEIEST a porcentaxe dos alumnos que aprobaron todas as materias foi do `r round(sum(pei$Aprobados)/sum(pei$N_alumnos)*100,1)`%, o `r  round(sum(pei$Suspensos_1_3)/sum(pei$N_alumnos)*100,1)`% suspenderon entre 1 e 3 materias, e o `r round(sum(pei$Suspensos_4_mas)/sum(pei$N_alumnos)*100,1)`% 4 ou mais materias.**
+</div>
+```{r}
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 for(i in unique(datos1$Trimestre)){
   datos<-dplyr::filter(datos1,Trimestre==i)
   grafica<-ggplot(data=datos,aes(x=Curso,y=numero,fill=Resultados))+geom_bar(stat="identity",position=position_dodge())+
@@ -179,10 +241,14 @@ for(i in unique(datos1$Trimestre)){
 ```
 
 ## Gráficos para as clases de INFOFI
+<<<<<<< HEAD
 
 Nestas gráficas amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
+=======
+Nestes gráficos amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 
-```{r echo=F,warning=F,message=F}
+```{r}
 for(j in unique(datos1$Trimestre)){
   dato<-filter(datos1,Trimestre==j)
   dato<-dato[grep("^INF",datos1$Curso),]
@@ -190,19 +256,28 @@ for(j in unique(datos1$Trimestre)){
     dato1<-dplyr::filter(dato,Clase==i)
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
       geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+<<<<<<< HEAD
       theme_bw()+labs(title=paste("Resultados da clase",i,"trimestre",j))+scale_fill_manual(values=colores)
     
     print(fig)
+=======
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+      print(fig)
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
     #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
   }
 }
 ```
 
 ## Gráficos para as clases de PEIEST
+<<<<<<< HEAD
 
 Nestas gráficas amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
+=======
+Nestes gráficos amósanse para cada clase, trimestre e categorías (resultados académicos) as porcentaxes.
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 
-```{r echo=F,warning=F,message=F}
+```{r}
 for(j in unique(datos1$Trimestre)){
   dato<-filter(datos1,Trimestre==j)
   dato<-dato[grep("^PEI",datos1$Curso),]
@@ -210,19 +285,29 @@ for(j in unique(datos1$Trimestre)){
     dato1<-dplyr::filter(dato,Clase==i)
     fig<-ggplot(dato1,aes(x=Resultados,y=numero,fill=Resultados))+
       geom_bar(stat="identity",position=position_dodge())+geom_text(aes(label=paste(round((numero/N_alumnos)*100,1),"%")),vjust=1.6,color="black",size=3.5)+
+<<<<<<< HEAD
       theme_bw()+labs(title=paste("Resultados da clase",i,"trimestre",j))+scale_fill_manual(values=colores)
     
     print(fig)
+=======
+      theme_bw()+labs(title=paste("Resultados de la clase",i,"trimestre",j))+scale_fill_manual(values=colores)
+      print(fig)
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
     #ggsave(fig,file=paste(resultado,j,i,".jpeg",sep=""),height=11,width=18,dpi=180)
   }
 }
 ```
 
 # Gráficos cos datos por trimestres e resultados para INFOFI e PEIEST
+<<<<<<< HEAD
 
 Nestas gráficas amósanse o número de alumnos por clase e trimestre distribuídos por resultados académicos nun diagrama de barras.
 
 ```{r echo=F,warning=F,message=F}
+=======
+Nestes gráficos amósanse o número de alumnos por clase e trimestre distribuídos por resultados académicos nun diagrama de barras.
+```{r}
+>>>>>>> 6bfbfd2529c9e4c1f4a6c11a14d296036be0ae8c
 for(j in unique(datos1$Clase)){
   dato<-filter(datos1,Clase==j & numero>0)
   dato_sort<-arrange(dato,Trimestre)
@@ -230,8 +315,6 @@ for(j in unique(datos1$Clase)){
   fig<-ggplot(dato_cumsum,aes(x=Trimestre,y=numero,group=Resultados),ylim(0,N_alumnos))+
     geom_bar(aes(fill=Resultados),stat="identity")+theme_bw()+labs(title=paste("Resultados da clase",j))+scale_fill_manual(values=colores)+
     geom_text(aes(y=label_ypos,label=numero),vjust=1.6,color="black",size=3.5)
-    
-    
     print(fig)
 }
 ```
